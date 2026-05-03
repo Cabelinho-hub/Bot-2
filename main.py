@@ -270,38 +270,38 @@ async def setup_punicao(ctx):
 async def on_ready():
     print(f'✅ Bot conectado como {bot.user}')
 
-
 @bot.event
 async def on_guild_channel_create(channel):
-    # Aguarda o ticket carregar
+    # Tempo para o sistema de ticket terminar de configurar o canal
     await asyncio.sleep(5)
     
-    # IDs das configurações
+    # Configurações extraídas do seu código
     ID_CATEGORIA_DENUNCIA = 1457468204543901908
     LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"
     
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
-        # Criando o Embed com aspas triplas para evitar erros de texto
         embed = discord.Embed(
             title="🚨 FORMULÁRIO DE DENÚNCIA",
-            description="""Olá! Para sua denúncia ser analisada, responda com:
+            description="""Olá! Para sua denúncia ser analisada, responda este ticket com os seguintes detalhes:
 
 👤 **Seu Nome e ID:**
-📅 **Data e Hora:**
+📅 **Data e Hora do ocorrido:**
 🆔 **ID do Denunciado:**
-🎬 **Provas (YouTube ou Medal):**
+🎬 **Provas (Link YouTube ou Medal):**
 📝 **Motivo Detalhado:**
 
-⚠️ *Denúncias são resolvidas entre 24h a 48h.*""",
+⚠️ *Lembre-se: O clipe deve ter o contexto completo e áudio de ambos os lados.*
+⏳ **Prazo de resolução:** 24h a 48h.""",
             color=discord.Color.red()
         )
         
-        # Criando o botão corretamente alinhado
         view = discord.ui.View()
-        view.add_item(discord.ui.Button(label="Ver Regras", url=LINK_REGRAS))
+        view.add_item(discord.ui.Button(label="Ver Regras de Denúncia", url=LINK_REGRAS))
 
-        # Enviando a mensagem
-        await channel.send(embed=embed, view=view)
+        try:
+            await channel.send(embed=embed, view=view)
+        except Exception as e:
+            print(f"Erro ao enviar mensagem no ticket: {e}")
         
 if __name__ == "__main__":
     Thread(target=run_server).start()
