@@ -278,7 +278,7 @@ async def on_guild_channel_create(channel):
     
     # IDs das configurações
     ID_CATEGORIA_DENUNCIA = 1457468204543901908
-    LINK_REGRAS = "https://gitbook.io"
+    LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"
     
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
         # Criando o Embed com aspas triplas para evitar erros de texto
