@@ -273,11 +273,13 @@ async def on_ready():
 
 @bot.event
 async def on_guild_channel_create(channel):
+    await asyncio.sleep(5) 
+    
     ID_CATEGORIA_DENUNCIA = 1457468204543901908  # <--- TROQUE PELO ID DA SUA CATEGORIA
     LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"    # <--- TROQUE PELO SEU LINK
     
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
-        embed = discord.Embed(
+       embed = discord.Embed(
             title="🚨 FORMULÁRIO DE DENÚNCIA",
             description="""Olá! Para sua denúncia ser analisada, responda com:
 
