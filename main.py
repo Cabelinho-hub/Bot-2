@@ -7,8 +7,6 @@ import datetime
 import sqlite3
 import re
 import pytz
-import asyncio
-from discord.ui import Button, View
 
 # --- BANCO DE DADOS ---
 conn = sqlite3.connect('metricas_raze.db', check_same_thread=False)
@@ -41,13 +39,10 @@ LOG_SUCESSO = 1417278744258937005
 LOG_ERRO = 1417278747031109662
 CARGOS_IGNORADOS = [1411158281409400832]
 fuso_br = pytz.timezone('America/Sao_Paulo')
-ID_CATEGORIA_DENUNCIA = 1457468204543901908  # Substitua pelo ID da categoria de denúncias
-LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
-intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # --- CLASSE DO BOTÃO PARA O ANÚNCIO ---
@@ -172,7 +167,7 @@ class FormularioPunicao(discord.ui.Modal, title="📝 Registrar Punição - Raze
             await interaction.followup.send("❌ O ID do usuário deve conter apenas números!", ephemeral=True)
         except Exception as e:
             await interaction.followup.send(f"❌ Erro ao registrar: {str(e)}", ephemeral=True)
- 
+
 @bot.event
 async def on_message(message):
     # 1. Ignora mensagens do próprio bot
@@ -268,39 +263,9 @@ async def setup_punicao(ctx):
     await ctx.send("🛡️ **Painel de Punições - Raze RP**", view=view)
 
 @bot.event
-async def on_guild_channel_create(channel):
-    # Aumentamos para 8 segundos para dar tempo do sistema de ticket carregar tudo
-    await asyncio.sleep(8)
-    
-    ID_CATEGORIA_DENUNCIA = 1457468204543901908
-    LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"
-    
-    # Verifica se é a categoria certa
-    if channel.category_id == ID_CATEGORIA_DENUNCIA:
-        try:
-            embed = discord.Embed(
-                title="🚨 FORMULÁRIO DE DENÚNCIA",
-                description="""Olá! Para sua denúncia ser analisada, responda com:
+async def on_ready():
+    print(f'✅ Bot conectado como {bot.user}')
 
-👤 **Seu Nome e ID:**
-📅 **Data e Hora:**
-🆔 **ID do Denunciado:**
-🎬 **Provas (YouTube ou Medal):**
-📝 **Motivo Detalhado:**
-
-⚠️ *Denúncias são resolvidas entre 24h a 48h.*""",
-                color=discord.Color.red()
-            )
-            
-            view = discord.ui.View()
-            view.add_item(discord.ui.Button(label="Ver Regras", url=LINK_REGRAS))
-
-            await channel.send(embed=embed, view=view)
-            print(f"✅ Formulário enviado com sucesso no canal: {channel.name}")
-            
-        except Exception as e:
-            print(f"❌ Erro ao enviar no ticket {channel.name}: {e}")
-        
 if __name__ == "__main__":
     Thread(target=run_server).start()
     token = os.environ.get("TOKEN")
