@@ -273,13 +273,16 @@ async def on_ready():
 
 @bot.event
 async def on_guild_channel_create(channel):
-    await asyncio.sleep(5) 
+    # Aguarda o ticket carregar
+    await asyncio.sleep(5)
     
-    ID_CATEGORIA_DENUNCIA = 1457468204543901908  # <--- TROQUE PELO ID DA SUA CATEGORIA
-    LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"    # <--- TROQUE PELO SEU LINK
+    # IDs das configurações
+    ID_CATEGORIA_DENUNCIA = 1457468204543901908
+    LINK_REGRAS = "https://gitbook.io"
     
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
-       embed = discord.Embed(
+        # Criando o Embed com aspas triplas para evitar erros de texto
+        embed = discord.Embed(
             title="🚨 FORMULÁRIO DE DENÚNCIA",
             description="""Olá! Para sua denúncia ser analisada, responda com:
 
@@ -293,9 +296,11 @@ async def on_guild_channel_create(channel):
             color=discord.Color.red()
         )
         
+        # Criando o botão corretamente alinhado
         view = discord.ui.View()
         view.add_item(discord.ui.Button(label="Ver Regras", url=LINK_REGRAS))
 
+        # Enviando a mensagem
         await channel.send(embed=embed, view=view)
         
 if __name__ == "__main__":
