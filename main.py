@@ -7,6 +7,7 @@ import datetime
 import sqlite3
 import re
 import pytz
+from discord.ui import Button, View
 
 # --- BANCO DE DADOS ---
 conn = sqlite3.connect('metricas_raze.db', check_same_thread=False)
@@ -168,6 +169,38 @@ class FormularioPunicao(discord.ui.Modal, title="📝 Registrar Punição - Raze
         except Exception as e:
             await interaction.followup.send(f"❌ Erro ao registrar: {str(e)}", ephemeral=True)
 
+@bot.event
+async def on_guild_channel_create(channel):
+    # Aguarda o ticket carregar as permissões
+    await asyncio.sleep(10)
+    
+    ID_CATEGORIA_DENUNCIA = 1457468204543901908
+    LINK_REGRAS = "https://gitbook.io"
+    
+    if channel.category_id == ID_CATEGORIA_DENUNCIA:
+        try:
+            embed = discord.Embed(
+                title="🚨 FORMULÁRIO DE DENÚNCIA",
+                description="""Olá! Para sua denúncia ser analisada, responda com:
+
+👤 **Seu Nome e ID:**
+📅 **Data e Hora:**
+🆔 **ID do Denunciado:**
+🎬 **Provas (YouTube ou Medal):**
+📝 **Motivo Detalhado:**
+
+⚠️ *Denúncias são resolvidas entre 24h a 48h.*""",
+                color=discord.Color.red()
+            )
+            
+            view = discord.ui.View()
+            view.add_item(discord.ui.Button(label="Ver Regras", url=LINK_REGRAS))
+
+            await channel.send(embed=embed, view=view)
+            print(f"✅ Formulário enviado no ticket: {channel.name}")
+        except Exception as e:
+            print(f"⚠️ Erro ao enviar no ticket: {e}")
+            
 @bot.event
 async def on_message(message):
     # 1. Ignora mensagens do próprio bot
