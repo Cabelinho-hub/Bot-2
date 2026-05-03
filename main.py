@@ -170,7 +170,7 @@ class FormularioPunicao(discord.ui.Modal, title="📝 Registrar Punição - Raze
             await interaction.followup.send("❌ O ID do usuário deve conter apenas números!", ephemeral=True)
         except Exception as e:
             await interaction.followup.send(f"❌ Erro ao registrar: {str(e)}", ephemeral=True)
-
+ 
 @bot.event
 async def on_message(message):
     # 1. Ignora mensagens do próprio bot
