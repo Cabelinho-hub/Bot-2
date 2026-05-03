@@ -268,41 +268,38 @@ async def setup_punicao(ctx):
     await ctx.send("🛡️ **Painel de Punições - Raze RP**", view=view)
 
 @bot.event
-async def on_ready():
-    print(f'✅ Bot conectado como {bot.user}')
-
-@bot.event
 async def on_guild_channel_create(channel):
-    # Tempo para o sistema de ticket terminar de configurar o canal
-    await asyncio.sleep(5)
+    # Aumentamos para 8 segundos para dar tempo do sistema de ticket carregar tudo
+    await asyncio.sleep(8)
     
-    # Configurações extraídas do seu código
     ID_CATEGORIA_DENUNCIA = 1457468204543901908
     LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"
     
+    # Verifica se é a categoria certa
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
-        embed = discord.Embed(
-            title="🚨 FORMULÁRIO DE DENÚNCIA",
-            description="""Olá! Para sua denúncia ser analisada, responda este ticket com os seguintes detalhes:
+        try:
+            embed = discord.Embed(
+                title="🚨 FORMULÁRIO DE DENÚNCIA",
+                description="""Olá! Para sua denúncia ser analisada, responda com:
 
 👤 **Seu Nome e ID:**
-📅 **Data e Hora do ocorrido:**
+📅 **Data e Hora:**
 🆔 **ID do Denunciado:**
-🎬 **Provas (Link YouTube ou Medal):**
+🎬 **Provas (YouTube ou Medal):**
 📝 **Motivo Detalhado:**
 
-⚠️ *Lembre-se: O clipe deve ter o contexto completo e áudio de ambos os lados.*
-⏳ **Prazo de resolução:** 24h a 48h.""",
-            color=discord.Color.red()
-        )
-        
-        view = discord.ui.View()
-        view.add_item(discord.ui.Button(label="Ver Regras de Denúncia", url=LINK_REGRAS))
+⚠️ *Denúncias são resolvidas entre 24h a 48h.*""",
+                color=discord.Color.red()
+            )
+            
+            view = discord.ui.View()
+            view.add_item(discord.ui.Button(label="Ver Regras", url=LINK_REGRAS))
 
-        try:
             await channel.send(embed=embed, view=view)
+            print(f"✅ Formulário enviado com sucesso no canal: {channel.name}")
+            
         except Exception as e:
-            print(f"Erro ao enviar mensagem no ticket: {e}")
+            print(f"❌ Erro ao enviar no ticket {channel.name}: {e}")
         
 if __name__ == "__main__":
     Thread(target=run_server).start()
