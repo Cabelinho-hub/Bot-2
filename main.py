@@ -46,6 +46,7 @@ LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # --- CLASSE DO BOTÃO PARA O ANÚNCIO ---
@@ -272,21 +273,21 @@ async def on_ready():
 
 @bot.event
 async def on_guild_channel_create(channel):
-    ID_CATEGORIA_DENUNCIA = 123456789012345678  # <--- TROQUE PELO ID DA SUA CATEGORIA
-    LINK_REGRAS = "https://linkdasregras.com"    # <--- TROQUE PELO SEU LINK
+    ID_CATEGORIA_DENUNCIA = 1457468204543901908  # <--- TROQUE PELO ID DA SUA CATEGORIA
+    LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay/punicoes"    # <--- TROQUE PELO SEU LINK
     
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
         embed = discord.Embed(
             title="🚨 FORMULÁRIO DE DENÚNCIA",
-            description=(
-                "Olá! Para sua denúncia ser analisada, responda com:\n\n",
-                "👤 **Seu Nome e ID:**\n",
-                "📅 **Data e Hora:**\n",
-                "🆔 **ID do Denunciado:**\n",
-                "🎬 **Provas (YouTube ou Medal):**\n",
-                "📝 **Motivo Detalhado:**\n\n",
-                "⚠️ *Denúncias são resolvidas entre 24h a 48h.*",
-            ),
+            description="""Olá! Para sua denúncia ser analisada, responda com:
+
+👤 **Seu Nome e ID:**
+📅 **Data e Hora:**
+🆔 **ID do Denunciado:**
+🎬 **Provas (YouTube ou Medal):**
+📝 **Motivo Detalhado:**
+
+⚠️ *Denúncias são resolvidas entre 24h a 48h.*""",
             color=discord.Color.red()
         )
         
