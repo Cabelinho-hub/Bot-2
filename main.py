@@ -7,6 +7,7 @@ import datetime
 import sqlite3
 import re
 import pytz
+import asyncio
 from discord.ui import Button, View
 
 # --- BANCO DE DADOS ---
