@@ -263,25 +263,26 @@ async def on_message(message):
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def anuncio(ctx, *, conteudo: str):
-    """Formato: !anuncio link_botao mensagem link_imagem"""
-    
+    """
+    Novo Formato: !anuncio link_botao | mensagem com quebras de linha | link_imagem
+    """
     await ctx.message.delete()
     
-    partes = conteudo.split() # Divide por espaços
+    # Agora dividimos usando o separador "|" para manter espaços e quebras de linha
+    partes = conteudo.split('|')
 
     if len(partes) < 3:
-        return await ctx.send("❌ Use o formato: `!anuncio link_botao mensagem link_imagem`", delete_after=5)
+        return await ctx.send("❌ Use o formato: `!anuncio link | mensagem | link_imagem` (separe com |)", delete_after=10)
 
-    link_botao = partes[0]      # Pega o primeiro
-    imagem_url = partes[-1]     # Pega o último
-    
-    # Junta tudo que sobrou no meio para formar a mensagem
-    mensagem = " ".join(partes[1:-1])
+    link_botao = partes[0].strip()   # strip() remove espaços desnecessários nas pontas
+    mensagem = partes[1].strip()     # Aqui o Markdown (# e \n) será preservado
+    imagem_url = partes[2].strip()
 
     embed = discord.Embed(description=mensagem, color=0xFF1493)
     embed.set_image(url=imagem_url)
     embed.set_footer(text="Raze RP - O momento é agora. 🔥")
 
+    # Certifique-se que sua classe AnuncioView está configurada corretamente
     view = AnuncioView(label="Entrar no Discord", url=link_botao)
 
     await ctx.send(embed=embed, view=view)
