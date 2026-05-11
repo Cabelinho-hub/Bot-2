@@ -176,7 +176,7 @@ async def on_guild_channel_create(channel):
     await asyncio.sleep(10)
     
     ID_CATEGORIA_DENUNCIA = 1457468204543901908
-    LINK_REGRAS = "https://gitbook.io"
+    LINK_REGRAS = "https://razerp.gitbook.io/raze-roleplay"
     
     if channel.category_id == ID_CATEGORIA_DENUNCIA:
         try:
@@ -184,11 +184,13 @@ async def on_guild_channel_create(channel):
                 title="🚨 FORMULÁRIO DE DENÚNCIA",
                 description="""Olá! Para sua denúncia ser analisada, responda com:
 
-👤 **Seu Nome e ID:**
-📅 **Data e Hora:**
+```
+👤 **Seu Nome em RP:**
+🆔 **ID:**
 🆔 **ID do Denunciado:**
+📅 **Data e Hora do Ocorrido:**
 🎬 **Provas (YouTube ou Medal):**
-📝 **Motivo Detalhado:**
+📝 **Motivo Detalhado da Denúncia:** ``` 
 
 ⚠️ *Denúncias são resolvidas entre 24h a 48h.*""",
                 color=discord.Color.red()
